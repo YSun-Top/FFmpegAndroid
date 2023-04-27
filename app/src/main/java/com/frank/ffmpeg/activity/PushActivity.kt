@@ -66,6 +66,6 @@ class PushActivity : BaseActivity() {
 
         // storage/emulated/0/beyond.mp4
         private const val INPUT_PATH = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-        private const val LIVE_URL = "rtmp://192.168.17.168/live/stream"
+        private const val LIVE_URL = "rtmp://172.16.31.46:1935/live/stream"
     }
 }

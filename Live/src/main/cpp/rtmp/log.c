@@ -30,6 +30,8 @@
 #include "rtmp_sys.h"
 #include "log.h"
 
+#include <android/log.h>
+#define LOGE(FORMAT,...) __android_log_print(ANDROID_LOG_ERROR, "RtMP-LOG",FORMAT, ##__VA_ARGS__)
 #define MAX_PRINT_LEN	2048
 
 RTMP_LogLevel RTMP_debuglevel = RTMP_LOGERROR;
@@ -62,6 +64,7 @@ static void rtmp_log_default(int level, const char *format, va_list vl)
 			putc('\n', fmsg);
 			neednl = 0;
 		}
+//        LOGE(format,vl);
 		fprintf(fmsg, "%s: %s\n", levels[level], str);
 #ifdef _DEBUG
 		fflush(fmsg);

@@ -43,6 +43,9 @@
 TLS_CTX RTMP_TLS_ctx;
 #endif
 
+#include <android/log.h>
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "RtMP-LOG", __VA_ARGS__)
+
 #define RTMP_SIG_SIZE 1536
 #define RTMP_LARGE_HEADER_SIZE 12
 
@@ -1376,10 +1379,14 @@ WriteN(RTMP *r, const char *buffer, int n)
     {
       int nBytes;
 
-      if (r->Link.protocol & RTMP_FEATURE_HTTP)
-        nBytes = HTTP_Post(r, RTMPT_SEND, ptr, n);
-      else
-        nBytes = RTMPSockBuf_Send(&r->m_sb, ptr, n);
+      if (r->Link.protocol & RTMP_FEATURE_HTTP){
+          nBytes = HTTP_Post(r, RTMPT_SEND, ptr, n);
+          LOGE("HTTP_Post:%d",nBytes);
+      }
+      else{
+          nBytes = RTMPSockBuf_Send(&r->m_sb, ptr, n);
+          LOGE("RTMPSockBuf_Send:%d",nBytes);
+      }
       /*RTMP_Log(RTMP_LOGDEBUG, "%s: %d\n", __FUNCTION__, nBytes); */
 
       if (nBytes < 0)
@@ -3322,9 +3329,12 @@ RTMP_SendPacket(RTMP *r, RTMPPacket *packet, int queue)
 	}
       else
         {
+          LOGE("n:%d",nChunkSize + hSize);
 	  wrote = WriteN(r, header, nChunkSize + hSize);
-	  if (!wrote)
-	    return FALSE;
+	  if (!wrote){
+          LOGE("在这里报错了：%d",wrote);
+          return FALSE;
+      }
 	}
       nSize -= nChunkSize;
       buffer += nChunkSize;

@@ -30,7 +30,7 @@ class WaterfallAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         heightList = arrayListOf(itemList!!.size)
         for (i in itemList.indices) {
-            val height = Random().nextInt(20) + DEFAULT_MARGIN
+            val height = 0 + DEFAULT_MARGIN
             heightList?.add(height)
         }
     }
